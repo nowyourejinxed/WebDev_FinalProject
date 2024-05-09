@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.js"></script>
+    <title>Undergrad Class Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .mainContainer {
+            margin-top: 130px;
+        }
+        .headerContainer {
+            margin-top: 150px;
+            margin: 20px;
+        }
+        .container {
+            margin-bottom: 50px;
+        }
+        #graph-container {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            width: 800px;
+            height: 700px;
+            border: 0.5px solid #999;
+            overflow-y: auto;
+            max-height: 1000px;
+        }
+        .box {
+            border: 0.2px solid #999;
+            display: flex;
+        }
+        div[class^="event-"]{
+            position: absolute;
+            border-radius: 5%;
+            transform: translate(-50%, -50%);
+        }
+        .timeandgraph {
+            display: flex;
+        }
+        .times {
+            display: grid;
+            grid-gap: 38px;
+            margin-right: 10px;
+        }
+        .days {
+            display: flex;
+            margin-left: 90px;
+            padding-bottom: 5px;
+            grid-gap: 85px;
+        }
+        .info {
+            word-wrap: break-word;
+            font-size: 10px;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="mainContainer">
+
+    <div class="headerContainer">
+        <div class="ui grid" id="header">
+            <div class="three column row">
+                <div class="column">
+
+                    <div class="ui input" style="width: 150px">
+                        <input type="text" placeholder="Department" id="departmentInput" value="CSE"/>
+                    </div>
+
+                </div>
+                <div
+                        class="column"
+                        style="text-align: center; font-size: 20px; font-weight: 600"
+                >
+                    SCHEDULE of CLASSES
+                </div>
+                <div class="column" style="text-align: end">Term: Spring 24</div>
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="five column row">
+                <div class="column">
+                    <div
+                            class="ui fluid selection search dropdown multiple"
+                            id="timeDropdown"
+                            style="width: 150px"
+                    >
+                        <input name="tags" type="hidden" />
+                        <div class="default text">Time</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="AM">AM</div>
+                            <div class="item" data-value="PM">PM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div
+                            class="ui fluid selection search dropdown multiple"
+                            id="freqDropdown"
+                            style="width: 150px"
+                    >
+                        <input name="tags" type="hidden" />
+                        <div class="default text">Freq</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="M">Mon</div>
+                            <div class="item" data-value="T">Tue</div>
+                            <div class="item" data-value="W">Wed</div>
+                            <div class="item" data-value="R">Thur</div>
+                            <div class="item" data-value="F">Fri</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui input" style="width: 150px">
+                        <input type="text" placeholder="Number" id="numberInput" />
+                    </div>
+                </div>
+                <div class="column">
+                    <div
+                            class="ui fluid selection search dropdown multiple"
+                            id="typeDropdown"
+                            style="width: 150px"
+                    >
+                        <input name="tags" type="hidden" />
+                        <div class="default text">Type</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="DIS">DIS</div>
+                            <div class="item" data-value="IND">IND</div>
+                            <div class="item" data-value="LAB">LAB</div>
+                            <div class="item" data-value="LEC">LEC</div>
+                            <div class="item" data-value="PEX">PEX</div>
+                            <div class="item" data-value="other">Other</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <button
+                            class="ui primary button"
+                            id="filterButton"
+                            style="width: 150px"
+                    >
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="days">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thur</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div class="timeandgraph">
+            <div class="times">
+                <div>8 AM</div>
+                <div>9 AM</div>
+                <div>10 AM</div>
+                <div>11 AM</div>
+                <div>12 PM</div>
+                <div>1 PM</div>
+                <div>2 PM</div>
+                <div>3 PM</div>
+                <div>4 PM</div>
+                <div>5 PM</div>
+                <div>6 PM</div>
+                <div>7 PM</div>
+                <div>8 PM</div>
+            </div>
+            <div id="graph-container"></div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FLos_Angeles&bgcolor=%23039BE5&mode=WEEK&title=Class%20Schedule&src=Y3N4OTFjYWxlbmRhckBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</body>
+</html>
