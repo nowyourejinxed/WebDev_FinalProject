@@ -1,191 +1,7 @@
-const CLASSSEARCH_API_URL = 'https://emerson-fleming.github.io/CS-ClassSearch.json';
 const colors = ["#b8ace4", "#209cbc", "#b8f4fc", "#68ccd4", "#60841c", "#b0cc84", "#ffd46c", "#f8ac14", "#f88c34", "#ff6c0c", "#ff5434", "#ffc4c4"];
 const graphContainer = document.getElementById("graph-container");
-let ClassSearch = null;
-let filterInfo = { time: "", freq: "", number: "", component: "", dept: "CSE" };
-
-const dummyData = [{
-    "_id": "6629882437b470447336051c",
-    "college": "BUS",
-    "acadorg": "R1150",
-    "subject": "CSE",
-    "catalog": "2013",
-    "section": "1002",
-    "title": "Machine Learning",
-    "component": "LEC",
-    "session": "1",
-    "classnbr": "20195",
-    "instructionmode": "P",
-    "classdays": "MW",
-    "classstarttime": "8.0",
-    "classendtime": "9.15",
-    "startdate": "1/22/24",
-    "enddate": "5/7/24",
-    "room": "AB 106",
-    "instructorlastname": "Do",
-    "instructorfirstname": "Chuong",
-    "roomcapacity": "208",
-    "enrollmentcapacity": "200",
-    "currentenrollment": "98",
-    "waitlistcapacity": "999",
-    "waitlisttotal": "0",
-    "combined": "No",
-    "classstat": "A",
-    "prgrssunt": "3.0",
-    "acadgroup": "120"
-},
-    {
-        "_id": "6629882437b470447336051a",
-        "college": "BUS",
-        "acadorg": "R1150",
-        "subject": "ACC",
-        "catalog": "2051",
-        "section": "1002",
-        "title": "Financial Accounting",
-        "component": "LEC",
-        "session": "1",
-        "classnbr": "20198",
-        "instructionmode": "P",
-        "classdays": "MW",
-        "classstarttime": "15.0",
-        "classendtime": "16.15",
-        "startdate": "1/22/24",
-        "enddate": "5/7/24",
-        "room": "AB 106",
-        "instructorlastname": "Do",
-        "instructorfirstname": "Chuong",
-        "roomcapacity": "208",
-        "enrollmentcapacity": "200",
-        "currentenrollment": "98",
-        "waitlistcapacity": "999",
-        "waitlisttotal": "0",
-        "combined": "No",
-        "classstat": "A",
-        "prgrssunt": "3.0",
-        "acadgroup": "120"
-    },
-    {
-        "_id": "6629882437b470447336051b",
-        "college": "BUS",
-        "acadorg": "R1150",
-        "subject": "ART",
-        "catalog": "2601",
-        "section": "1002",
-        "title": "Art class",
-        "component": "LEC",
-        "session": "1",
-        "classnbr": "20198",
-        "instructionmode": "P",
-        "classdays": "F",
-        "classstarttime": "9.0",
-        "classendtime": "10.15",
-        "startdate": "1/22/24",
-        "enddate": "5/7/24",
-        "room": "AB 106",
-        "instructorlastname": "Do",
-        "instructorfirstname": "Chuong",
-        "roomcapacity": "208",
-        "enrollmentcapacity": "200",
-        "currentenrollment": "98",
-        "waitlistcapacity": "999",
-        "waitlisttotal": "0",
-        "combined": "No",
-        "classstat": "A",
-        "prgrssunt": "3.0",
-        "acadgroup": "120"
-    },
-    {
-        "_id": "6629882437b470447336051d",
-        "college": "BUS",
-        "acadorg": "R1150",
-        "subject": "CSE",
-        "catalog": "2901",
-        "section": "1002",
-        "title": "Full Stack",
-        "component": "LEC",
-        "session": "1",
-        "classnbr": "20198",
-        "instructionmode": "P",
-        "classdays": "MTW",
-        "classstarttime": "10.0",
-        "classendtime": "11.15",
-        "startdate": "1/22/24",
-        "enddate": "5/7/24",
-        "room": "AB 106",
-        "instructorlastname": "Do",
-        "instructorfirstname": "Chuong",
-        "roomcapacity": "208",
-        "enrollmentcapacity": "200",
-        "currentenrollment": "98",
-        "waitlistcapacity": "999",
-        "waitlisttotal": "0",
-        "combined": "No",
-        "classstat": "A",
-        "prgrssunt": "3.0",
-        "acadgroup": "120"
-    },
-    {
-        "_id": "6629882437b470447336051e",
-        "college": "BUS",
-        "acadorg": "R1150",
-        "subject": "ACC",
-        "catalog": "8201",
-        "section": "1002",
-        "title": "Big Data",
-        "component": "LEC",
-        "session": "1",
-        "classnbr": "20198",
-        "instructionmode": "P",
-        "classdays": "TR",
-        "classstarttime": "15.0",
-        "classendtime": "17.15",
-        "startdate": "1/22/24",
-        "enddate": "5/7/24",
-        "room": "AB 106",
-        "instructorlastname": "Do",
-        "instructorfirstname": "Chuong",
-        "roomcapacity": "208",
-        "enrollmentcapacity": "200",
-        "currentenrollment": "98",
-        "waitlistcapacity": "999",
-        "waitlisttotal": "0",
-        "combined": "No",
-        "classstat": "A",
-        "prgrssunt": "3.0",
-        "acadgroup": "120"
-    },
-    {
-        "_id": "6629882437b470447336051f",
-        "college": "BUS",
-        "acadorg": "R1150",
-        "subject": "ELE",
-        "catalog": "20441",
-        "section": "1002",
-        "title": "ELECTRICAL",
-        "component": "IND",
-        "session": "1",
-        "classnbr": "20198",
-        "instructionmode": "P",
-        "classdays": "MW",
-        "classstarttime": "12.0",
-        "classendtime": "15.15",
-        "startdate": "1/22/24",
-        "enddate": "5/7/24",
-        "room": "AB 106",
-        "instructorlastname": "Doll",
-        "instructorfirstname": "dfdf",
-        "roomcapacity": "208",
-        "enrollmentcapacity": "200",
-        "currentenrollment": "98",
-        "waitlistcapacity": "999",
-        "waitlisttotal": "0",
-        "combined": "No",
-        "classstat": "A",
-        "prgrssunt": "3.0",
-        "acadgroup": "120"
-    }
-];
-
+let filterInfo = { time: "", freq: "", number: "", component: "", dept: "CS" };
+const loaderElement = document.getElementById("loader");
 const rows = 7;
 const columns = 12;
 for (let i = 1; i <= rows * columns; i++) {
@@ -215,7 +31,7 @@ function plotEvent(w, h, x, y, color, classInfo) {
 
     const info = document.createElement("div");
     info.className = "info";
-    info.innerHTML = classInfo.title.split(" ").slice(0, 2).join(" ");
+    info.innerHTML = classInfo.classNumber;
     event.appendChild(info);
     graphContainer.appendChild(event);
 
@@ -224,35 +40,15 @@ function plotEvent(w, h, x, y, color, classInfo) {
             html: `<div><div><div><strong>${nameOfClass}</strong></div><div><strong>Class: </strong>${classNumber}</div><div><strong>Section: </strong>${section}</div><div><strong>Days & Times: </strong> ${daysTime}</div><div><strong>Room: </strong>${room}</div><div><strong>Instructor: </strong>${instructor}</div></div></div>`,
         });
     });
+    //Click event listener for opening the modal overlay with class details
+    event.addEventListener('click', function () {
+        showOverlay(classInfo);
+    })
+
 }
 
-async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response error');
-        const data = await response.json();
-        if (data === undefined) throw new Error('Data is undefined');
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-    }
-}
 
-async function fetchAndHandleData() {
-    const apiUrl = CLASSSEARCH_API_URL;
-    const fetchedData = await fetchData(apiUrl);
-    if (fetchedData !== null) return fetchedData;
-    else console.log('Failed to fetch data or data is undefined.');
-}
 
-// Call the async function
-// fetchAndHandleData().then(data => {
-//   ClassSearch = data
-//   FormatClass(filterInfo);
-// });
-
-ClassSearch = dummyData;
 
 $(document).ready(function () {
     $("#timeDropdown").dropdown({
@@ -294,12 +90,18 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#departmentInput").on("change", function () {
-        var value = $(this).val();
+        var value = $(this).val().toUpperCase();
         filterInfo.dept = value;
     });
 });
 
 $("#filterButton").click(function () {
+    const events = document.querySelectorAll('[class^="event-"]');
+    Array.from(events).forEach(function (event) {
+        event.remove(); // Removes each element
+    });
+
+    console.log('clicked')
     FormatClass(filterInfo);
 });
 
@@ -307,56 +109,53 @@ $("#filterButton").click(function () {
 $(document).ready(function () {
     $("#departmentInput").on("input", function (event) {
         const typedValue = $(this).val();
-        // $("#filterButton").prop("disabled", typedValue.length === 0);
+        $("#filterButton").prop("disabled", typedValue.length === 0);
     });
 });
 
 
-function FormatClass(filterInfo) {
-    const splitedObjects = splitObject(ClassSearch).flat();
-    const filterData = useFilter(splitedObjects, filterInfo);
-    const addPixelData = calculatePixelData(filterData);
-    const overlaps = overlappingCondition(addPixelData);
-    renderClasses(overlaps);
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response error');
+        const data = await response.json();
+        if (data === undefined) throw new Error('Data is undefined');
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
 }
 
-ClassSearch && FormatClass(filterInfo);
+async function fetchAndHandleData(filterInfo) {
+    const { time, freq, number, component, dept } = filterInfo;
+    const apiUrl = `/api/courses?dept=${dept}&time=${time}&freq=${freq}&number=${number}&component=${component}`;
+    const fetchedData = await fetchData(apiUrl);
+    if (fetchedData !== null) return fetchedData;
+    else console.log('Failed to fetch data or data is undefined.');
+}
 
-function useFilter(data, filterInfo) {
-    const events = document.querySelectorAll('[class^="event-"]');
-    Array.from(events).forEach(function (event) {
-        event.remove(); // Removes each element
+FormatClass(filterInfo);
+
+function FormatClass(filterInfo) {
+    $(document).ready(function () {
+        $("#loader").css("display", "block");
     });
+    // Call the async function
+    fetchAndHandleData(filterInfo)
+        .then(data => {
+            console.log(data);
+            const splitedObjects = splitObject(data).flat();
+            loaderElement.style.display = "none";
+            const addPixelData = calculatePixelData(splitedObjects);
+            const overlaps = overlappingCondition(addPixelData);
+            renderClasses(overlaps);
+        })
 
-    const filtered = data.filter((item) => {
-        const deptFilter =
-            filterInfo.dept !== ""
-                ? filterInfo.dept === item.department
-                : true;
-        const timeFilter =
-            filterInfo.time !== ""
-                ? filterInfo.time.includes(item.classstarttime.slice(-2))
-                : true;
-        const dayFilter =
-            filterInfo.freq !== ""
-                ? filterInfo.freq.split(",").includes(item.Day)
-                : true;
-        const numberFilter =
-            filterInfo.number !== ""
-                ? item.classNumber === filterInfo.number
-                : true;
-        const typeFilter =
-            filterInfo.component !== ""
-                ? filterInfo.component.includes(item.component)
-                : true;
-        return deptFilter & timeFilter && dayFilter && numberFilter && typeFilter;
-    });
-
-    return filtered;
 }
 
 function calculatePixelData(splitedObjects) {
-    return splitedObjects.map((obj) => {
+    return splitedObjects.filter(element => element !== undefined).map((obj) => {
         const height = obj.classstarttime && calculateHeight(obj.classstarttime, obj.classendtime);
         const top = getTop(height, obj.classstarttime);
         const left = getLeft(obj.day);
@@ -471,14 +270,13 @@ function parseTime(timeString) {
 
 function splitObject(restructureClassSearch) {
     return restructureClassSearch.map((originalObj) => {
-        const days = originalObj.classdays.split("");
-        const startTime = convertTo12HourFormat(originalObj.classstarttime);
-        const endTime = convertTo12HourFormat(originalObj.classendtime);
+        const days = originalObj.classdays?.split("");
+        const startTime = originalObj.classstarttime && convertTo12HourFormat(addDecimal(originalObj.classstarttime));
+        const endTime = originalObj.classendtime && convertTo12HourFormat(addDecimal(originalObj.classendtime));
         const colorIndex = classColorIndex(originalObj.component);
         const color = colors[colorIndex];
 
-
-        const splitObject = days.map((day) => {
+        const splitObject = days?.map((day) => {
             return {
                 _id: originalObj._id,
                 college: originalObj.college,
@@ -604,4 +402,46 @@ function classColorIndex(classType) {
         default:
             return 0;
     }
+}
+
+function addDecimal(num) {
+    return !num.toString().includes(".") ? num.toString() + ".0" : num.toString()
+}
+
+//popup info starts here
+$("#addClass").on("click", function () {
+    alert("Class successfully added!");
+    // ADD CODE TO ADD CLASS TO GOOGLE CALDENDAR HERE!!!
+});
+
+
+// Function to display the modal overlay with the class details
+function showOverlay(classInfo) {
+    const { department, classNumber, title, acadgroup, college, section, session, classnbr,
+        acadorg,
+        component,
+        instructionmode,
+        day,
+        classstarttime,
+        classendtime,
+        startdate,
+        enddate,
+        room,
+        instructorfirstname,
+        instructorlastname,
+        roomcapacity,
+        enrollmentcapacity,
+        currentenrollment,
+        waitlistcapacity,
+        waitlisttotal,
+        classstat,
+        prgrssunt,
+    } = classInfo;
+
+    $('#exampleModal').modal('show');
+    document.getElementById('classNameNumber').innerText = `${department} - ${classNumber} (${section}): ${title}`;
+    document.getElementById('classTimeDate').innerText = `${day}, ${classstarttime} : ${classendtime}`;
+    document.getElementById('instructor').innerText = `${instructorfirstname} ${instructorlastname}`;
+    document.getElementById('room').innerText = `${room}`;
+    document.getElementById('date').innerText = `${startdate} - ${enddate}`;
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../public/css/style.css">
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.css"
@@ -10,76 +11,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.js"></script>
     <title>Undergrad Class Schedule</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
-        .mainContainer {
-            margin-top: 130px;
-        }
-        .headerContainer {
-            margin-top: 150px;
-            margin: 20px;
-        }
-        .container {
-            margin-bottom: 50px;
-        }
-        #graph-container {
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: repeat(12, 1fr);
-            width: 800px;
-            height: 700px;
-            border: 0.5px solid #999;
-            overflow-y: auto;
-            max-height: 1000px;
-        }
-        .box {
-            border: 0.2px solid #999;
-            display: flex;
-        }
-        div[class^="event-"]{
-            position: absolute;
-            border-radius: 5%;
-            transform: translate(-50%, -50%);
-        }
-        .timeandgraph {
-            display: flex;
-        }
-        .times {
-            display: grid;
-            grid-gap: 38px;
-            margin-right: 10px;
-        }
-        .days {
-            display: flex;
-            margin-left: 90px;
-            padding-bottom: 5px;
-            grid-gap: 85px;
-        }
-        .info {
-            word-wrap: break-word;
-            font-size: 10px;
-            padding: 2px;
-        }
-    </style>
 </head>
 <body>
 
 <div class="mainContainer">
-
     <div class="headerContainer">
         <div class="ui grid" id="header">
             <div class="three column row">
                 <div class="column">
 
                     <div class="ui input" style="width: 150px">
-                        <input type="text" placeholder="Department" id="departmentInput" value="CSE"/>
+                        <input type="text" placeholder="Department" id="departmentInput" value="CS"/>
                     </div>
 
                 </div>
@@ -96,7 +38,7 @@
             <div class="five column row">
                 <div class="column">
                     <div
-                            class="ui fluid selection search dropdown multiple"
+                            class="ui fluid selection search dropdown"
                             id="timeDropdown"
                             style="width: 150px"
                     >
@@ -108,6 +50,7 @@
                             <div class="item" data-value="PM">PM</div>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="column">
                     <div
@@ -134,7 +77,7 @@
                 </div>
                 <div class="column">
                     <div
-                            class="ui fluid selection search dropdown multiple"
+                            class="ui fluid selection search dropdown"
                             id="typeDropdown"
                             style="width: 150px"
                     >
@@ -190,11 +133,38 @@
                 <div>7 PM</div>
                 <div>8 PM</div>
             </div>
-            <div id="graph-container"></div>
+            <div id="graph-container">
+                <div id="loader" class="ui segment">
+                    <div class="ui active inverted dimmer">
+                      <div class="ui text loader">Loading classes...</div>
+                    </div>
+                    <p></p>
+                  </div>
+            </div>
         </div>
     </div>
+    <div class="google-calendar">
+        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FLos_Angeles&bgcolor=%23039BE5&mode=WEEK&title=Class%20Schedule&src=Y3N4OTFjYWxlbmRhckBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
 </div>
-<script src="script.js"></script>
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FLos_Angeles&bgcolor=%23039BE5&mode=WEEK&title=Class%20Schedule&src=Y3N4OTFjYWxlbmRhckBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+   <!-- Modal Structure -->
+   <div class="ui modal" id="exampleModal">
+       <i class="close icon"></i>
+       <div class="header">
+           Add this class to your Google Calendar?
+       </div>
+       <div class="content">
+            <p id="classNameNumber"><b>&nbsp;</b></p>
+            <p id="classTimeDate">&nbsp;</p>
+            <p id="instructor">&nbsp;</p>
+            <p id="room">&nbsp;</p>
+            <p id="date">&nbsp;</p>
+       </div>
+       <div class="actions">
+           <div class="ui button ok">Cancel</div>
+           <div id= "addClass" class="ui button ok">OK</div>
+       </div>
+   </div>
+<script src="../public/js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+.mainContainer {
+    margin-top: 830px;
+}
+.headerContainer {
+    margin-top: 150px;
+    margin: 20px;
+}
+.container {
+    margin-bottom: 50px;
+}
+#graph-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    width: 800px;
+    height: 700px;
+    border: 0.5px solid #999;
+    overflow-y: auto;
+    max-height: 1000px;
+}
+.box {
+    border: 0.2px solid #999;
+    display: flex;
+}
+div[class^="event-"]{
+    position: absolute;
+    border-radius: 5%;
+    transform: translate(-50%, -50%);
+}
+.timeandgraph {
+    display: flex;
+}
+.times {
+    display: grid;
+    grid-gap: 37px;
+    margin-right: 10px;
+}
+.days {
+    display: flex;
+    margin-left: 90px;
+    padding-bottom: 5px;
+    grid-gap: 85px;
+}
+.info {
+    word-wrap: break-word;
+    font-size: 10px;
+    padding: 2px;
+}
+.google-calendar{
+    margin-left: 50px;
+}
+
+#loader {
+    position: static;
+    display: none;
+}
+
+#overlay {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: row;
+    z-index: 100;
+    justify-content: center;
+    background-color: var(--bs-secondary-color);
+    position: absolute;
+  }
+  
+  #class-popup {
+    width: 30%;
+    height: 50%;
+    z-index: 1000;
+  }
+  
+  #button-carousel {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
