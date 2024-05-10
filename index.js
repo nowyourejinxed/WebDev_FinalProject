@@ -39,7 +39,7 @@ async function findCoursesByFilters(filters) {
                     acc.subject = value;
                     break;
                 case "time":
-                    acc["class start time"] = value === "AM" ? { "$lt": 11 } : { "$gt": 13 };
+                    acc["class start time"] = value === "AM" ? { "$lt": 12 } : { "$gt": 12 };
                     break;
                 case "freq":
                     acc["class days"] = value.replace(",", "");
